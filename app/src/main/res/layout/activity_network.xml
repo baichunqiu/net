@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_bg"
+    android:orientation="vertical">
+
+    <com.qunli.network.TitleBar
+    android:id="@+id/titleBar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top" />
+
+    <com.bcq.oklib.net.view.PullToRefreshListView
+        android:id="@+id/prlv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:fadingEdge="none"
+        android:listSelector="@android:color/transparent"
+        android:orientation="vertical"
+        android:scrollbars="none" />
+
+    <TextView
+        android:id="@+id/select_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/dimens_20px"
+        android:layout_marginLeft="@dimen/dimens_50px"
+        android:layout_marginRight="@dimen/dimens_50px"
+        android:layout_marginTop="@dimen/dimens_20px"
+        android:background="@color/color_blue"
+        android:gravity="center"
+        android:paddingBottom="@dimen/dimens_20px"
+        android:paddingTop="@dimen/dimens_20px"
+        android:text="master"
+        android:textColor="@color/colorAccent"
+        android:textSize="15sp" />
+
+</LinearLayout>
