@@ -88,8 +88,8 @@ public class OKUtil {
                 .addHeader(TOKEN_KEY,LAST_TOKEN);
     }
 
-    public static <T, R> void postArr(T tag, String url, Map<String, String> params, IListCallback<T, R> IListCallback) {
-        postArr(tag, url, params, null, IListCallback);
+    public static <T, R> Request postArr(T tag, String url, Map<String, String> params, IListCallback<T, R> IListCallback) {
+        return postArr(tag, url, params, null, IListCallback);
     }
 
     /**
@@ -101,15 +101,18 @@ public class OKUtil {
      * @param <T>           body实体的泛型
      * @param <R>           tag的泛型
      */
-    public static <T, R> void postArr(T tag, String url, Map<String, String> params,Parser parser, IListCallback<T, R> IListCallback) {
-        if (!check(tag,url)) return;
-        initPostBuilder(tag, url, params)
-                .build()
-                .execute(new BusiListCallback(new Request(tag, url,params, parser, IListCallback,ApiType.POST)));
+    public static <T, R> Request postArr(T tag, String url, Map<String, String> params, Parser parser, IListCallback<T, R> IListCallback) {
+        Request request = new Request(tag, url, params, parser, IListCallback, ApiType.POST);
+        if (check(tag, url)) {
+            initPostBuilder(tag, url, params)
+                    .build()
+                    .execute(new BusiListCallback(request));
+        }
+        return request;
     }
 
-    public static <T, R> void getArr(T tag, String url, Map<String, String> params,IListCallback<T, R> IListCallback) {
-        getArr(tag, url, params, null, IListCallback);
+    public static <T, R> Request getArr(T tag, String url, Map<String, String> params,IListCallback<T, R> IListCallback) {
+        return getArr(tag, url, params, null, IListCallback);
     }
 
     /**
@@ -121,11 +124,14 @@ public class OKUtil {
      * @param <T>           body实体的泛型
      * @param <R>           tag的泛型
      */
-    public static <T, R> void getArr(T tag, String url, Map<String, String> params,Parser parser, IListCallback<T, R> IListCallback) {
-        if (!check(tag,url)) return;
-        initGetBuider(tag, url, params)
-                .build()
-                .execute(new BusiListCallback(new Request(tag, url,params,parser, IListCallback,ApiType.GET)));
+    public static <T, R> Request getArr(T tag, String url, Map<String, String> params,Parser parser, IListCallback<T, R> IListCallback) {
+        Request request = new Request(tag, url, params, parser, IListCallback, ApiType.GET);
+       if (check(tag,url)) {
+            initGetBuider(tag, url, params)
+                    .build()
+                    .execute(new BusiListCallback(request));
+        }
+        return request;
     }
 
     public static <T> void post(T tag, String url, Map<String, String> params, ICallback<T,Integer,String> iCallback) {
@@ -140,11 +146,14 @@ public class OKUtil {
      * @param iCallback 无body的网络回调
      * @param <T>       tag的泛型
      */
-    public static <T> void post(T tag, String url, Map<String, String> params, Parser parser, ICallback<T,Integer,String> iCallback) {
-        if (!check(tag,url)) return;
-        initPostBuilder(tag, url, params)
-                .build()
-                .execute(new BusiCallback(new Request(tag, url,params, parser,iCallback,ApiType.POST)));
+    public static <T> Request post(T tag, String url, Map<String, String> params, Parser parser, ICallback<T,Integer,String> iCallback) {
+        Request request = new Request(tag, url, params, parser, iCallback, ApiType.POST);
+        if (check(tag,url)) {
+            initPostBuilder(tag, url, params)
+                    .build()
+                    .execute(new BusiCallback(request));
+        }
+        return request;
     }
 
     public static <T> void get(T tag, String url, Map<String, String> params, ICallback<T,Integer,String> iCallback) {
@@ -159,11 +168,14 @@ public class OKUtil {
      * @param iCallback 无body的网络回调
      * @param <T>       tag的泛型
      */
-    public static <T> void get(T tag, String url, Map<String, String> params, Parser parser, ICallback<T,Integer,String> iCallback) {
-        if (!check(tag,url)) return;
-        initGetBuider(tag, url, params)
-                .build()
-                .execute(new BusiCallback(new Request(tag, url,params, parser,iCallback,ApiType.GET)));
+    public static <T> Request get(T tag, String url, Map<String, String> params, Parser parser, ICallback<T,Integer,String> iCallback) {
+        Request request = new Request(tag, url, params, parser, iCallback, ApiType.GET);
+        if (check(tag,url)) {
+            initGetBuider(tag, url, params)
+                    .build()
+                    .execute(new BusiCallback(new Request(tag, url, params, parser, iCallback, ApiType.GET)));
+        }
+        return request;
     }
 
     /**

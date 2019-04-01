@@ -6,6 +6,7 @@ import com.bcq.oklib.net.listener.net.callback.BaseListCallback;
 import com.bcq.oklib.net.utils.ApiType;
 import com.bcq.oklib.net.utils.OKUtil;
 import com.bcq.oklib.net.view.LoadDialog;
+import com.bcq.oklib.utils.ObjUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -19,11 +20,11 @@ import java.util.Map;
 public abstract class NetController<T>{
     private Class<T> tClass;
 
-    public NetController(Class<T> tClass) {
-        this.tClass = tClass;
+    public NetController() {
+        this.tClass = ObjUtil.getTType(NetController.class)[0];
     }
 
-    public void postArr(String mUrl, final Map<String, String> params, LoadDialog dialog) {
+    public void postArr(String mUrl, Map<String, String> params, LoadDialog dialog) {
         obtainNetData(mUrl, params, dialog, ApiType.POST);
     }
 

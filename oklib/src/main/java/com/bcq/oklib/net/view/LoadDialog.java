@@ -2,6 +2,7 @@ package com.bcq.oklib.net.view;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

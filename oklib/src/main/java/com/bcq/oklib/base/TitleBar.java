@@ -1,4 +1,4 @@
-package com.qunli.network;
+package com.bcq.oklib.base;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.bcq.oklib.R;
 
 /**
  * @author: BaiCQ
@@ -181,7 +183,7 @@ public class TitleBar extends RelativeLayout {
      */
     private void refreshMode(){
         if (null != ll_right) {
-            RelativeLayout.LayoutParams lrp = (RelativeLayout.LayoutParams)ll_right.getLayoutParams();
+            LayoutParams lrp = (LayoutParams)ll_right.getLayoutParams();
             lrp.width = textMode ? rightWidth : height;
             ll_right.setLayoutParams(lrp);
             if (!textMode && pressDrawable > 0) {

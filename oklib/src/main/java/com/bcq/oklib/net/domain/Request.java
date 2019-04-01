@@ -65,23 +65,22 @@ public class Request<T,B,E> implements Serializable {
     /**
      * 再次发起请求
      */
-    public <R>void requestAgain() {
+    public <R> Request requestAgain() {
         switch (type) {
             case GET:
                 if (isArr()){
-                    OKUtil.getArr(tag, url, params, parser, (IListCallback<T, R>)iCallback);
+                    return OKUtil.getArr(tag, url, params, parser, (IListCallback<T, R>)iCallback);
                 }else {
-                    OKUtil.get(tag, url, params, parser, (ICallback<T, Integer,String>)iCallback);
+                    return OKUtil.get(tag, url, params, parser, (ICallback<T, Integer,String>)iCallback);
                 }
-                break;
             case POST:
                 if (isArr()){
-                    OKUtil.postArr(tag, url, params, parser, (IListCallback<T, R>)iCallback);
+                    return OKUtil.postArr(tag, url, params, parser, (IListCallback<T, R>)iCallback);
                 }else {
-                    OKUtil.post(tag, url, params, parser, (ICallback<T, Integer,String>)iCallback);
+                    return OKUtil.post(tag, url, params, parser, (ICallback<T, Integer,String>)iCallback);
                 }
-                break;
         }
+        return null;
     }
 
 }

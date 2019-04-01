@@ -7,11 +7,20 @@ import com.bcq.oklib.net.utils.NetType;
  * @ClassName: IRefresh
  * @Description: 刷新UI的接口
  */
-public interface IRefresh {
+public interface IBase {
+
+    /**
+     * 设置布局
+     */
+    int setLayoutId();
+
+    /**
+     * 初始化
+     */
+    void init();
 
     /**
      * 刷新UI回调接口
-     *
      * @param obj
      */
     void onRefresh(Object obj);
@@ -21,5 +30,4 @@ public interface IRefresh {
      * @param netType
      */
     void onNetChange(NetType netType);
-
 }

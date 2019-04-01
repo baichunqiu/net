@@ -21,8 +21,4 @@ public class Constant {
     public final static String KEY_BASE = "key_basis";
     public final static String KEY_OBJ = "key_obj";
 
-    //页码sizek
-    public final static String pageSize = "per_page";
-    //当前页的索引key
-    public final static String pageIndex = "page";
 }

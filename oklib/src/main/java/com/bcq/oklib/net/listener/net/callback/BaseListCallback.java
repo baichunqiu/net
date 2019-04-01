@@ -50,7 +50,6 @@ public class BaseListCallback<T, R> implements IListCallback<T, R> {
     }
 
     public void onNoData(T tag) {
-
     }
 
     @Override

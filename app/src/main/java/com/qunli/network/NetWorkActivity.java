@@ -1,8 +1,8 @@
 package com.qunli.network;
 
-import android.os.Bundle;
 import android.view.View;
 
+import com.bcq.oklib.UI;
 import com.bcq.oklib.base.BaseActivity;
 import com.bcq.oklib.net.listener.net.callback.BaseListCallback;
 import com.bcq.oklib.net.utils.OKUtil;
@@ -14,39 +14,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class NetWorkActivity extends BaseActivity implements View.OnClickListener {
+public class NetWorkActivity extends BaseActivity{
     private PullToRefreshListView prlv;
     private NetAdapter adapter;
-    private TitleBar titleBar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_network);
-        initView();
+    public int setLayoutId() {
+        return R.layout.activity_network;
+    }
+
+    @Override
+    public void init() {
+        prlv = getView(R.id.prlv);
         initData();
-    }
-
-    public void initView() {
-        titleBar = findViewById(R.id.titleBar);
-        prlv = findViewById(R.id.prlv);
-        findViewById(R.id.select_image).setOnClickListener(this);
-//        prlv.setOnRefreshListener(new DefaultRefreshListener(this));
-//        prlv.setOnLoadListener(new DefaultLoadListener(this));
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.select_image:
-//                startActivity(new Intent(mActivity, NetMasterActivity.class));
-        }
     }
 
     public void initData() {
         adapter = new NetAdapter(mActivity);
         prlv.setAdapter(adapter);
         getNetData(true, true);
+        getView(R.id.select_image).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UI.startActivity(mActivity,NetMasterActivity.class);
+            }
+        });
     }
 
 
