@@ -40,10 +40,7 @@ public abstract class BaseActivity extends FragmentActivity implements IBase {
             getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN , WindowManager.LayoutParams. FLAG_FULLSCREEN);
         }
         AppHelper.getInstance().add(mActivity);
-        layout = setLayoutView();
-        if (null == layout && setLayoutId() > 0) {
-            layout = UI.inflate(setLayoutId());
-        }
+        layout = UI.inflate(setLayoutId());
         setContentView(layout);
         init();
     }
@@ -63,9 +60,4 @@ public abstract class BaseActivity extends FragmentActivity implements IBase {
     @Override
     public void onNetChange(NetType netType) {
     }
-
-    public View setLayoutView(){
-        return null;
-    }
-
 }

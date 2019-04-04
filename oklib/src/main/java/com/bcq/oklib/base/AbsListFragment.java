@@ -35,7 +35,6 @@ public abstract class AbsListFragment<T> extends BaseFragment implements UIContr
         resetLayoutView();
         tClass = (Class<T>) ObjUtil.getTType(getClass())[0];
         mController = new UIController<T>(getLayout(), tClass, this);
-        mController.init();
         initView(contentView);
     }
 
@@ -43,14 +42,10 @@ public abstract class AbsListFragment<T> extends BaseFragment implements UIContr
         FrameLayout ll_content = getView(R.id.ll_content);
         contentView = setContentView();
         ll_content.addView(contentView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        //覆盖当前视图的v_show_data
+        //添加no_data到show_data同级
         View show_data = UI.getView(contentView, R.id.v_show_data);
         ViewGroup extraParent = null != show_data ? (ViewGroup) show_data.getParent() : ll_content;
         extraParent.addView(UI.inflate(R.layout.no_data), FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-    }
-
-    public void getNetData(boolean isRefresh, String mUrl, Map<String, String> params, String mDialogMsg) {
-        getNetData(isRefresh, mUrl, params, null, mDialogMsg, ApiType.GET);
     }
 
     public void getNetData(boolean isRefresh, String mUrl, Map<String, String> params, String mDialogMsg, ApiType apiType) {
@@ -67,7 +62,7 @@ public abstract class AbsListFragment<T> extends BaseFragment implements UIContr
      */
     public void getNetData(boolean isRefresh, String mUrl, Map<String, String> params, Parser parser, String mDialogMsg, ApiType apiType) {
         if (null != mController)
-            mController.securityObtainData(isRefresh, mUrl, params, parser, TextUtils.isEmpty(mDialogMsg) ? null : new LoadDialog(mActivity, mDialogMsg), apiType);
+            mController.obtainNetData(isRefresh, mUrl, params, parser, TextUtils.isEmpty(mDialogMsg) ? null : new LoadDialog(mActivity, mDialogMsg), apiType);
     }
 
     public void onRefreshData(List<T> netData, boolean isRefresh) {

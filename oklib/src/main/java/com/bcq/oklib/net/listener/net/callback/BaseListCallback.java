@@ -49,9 +49,6 @@ public class BaseListCallback<T, R> implements IListCallback<T, R> {
         Logger.e("BaseListCallback", "onError:" + errMsg);
     }
 
-    public void onNoData(T tag) {
-    }
-
     @Override
     public void onAfter(T tag, int status,String msg) {
         if (null != baseListView) {

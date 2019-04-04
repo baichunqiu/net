@@ -10,7 +10,6 @@ import com.bcq.oklib.UI;
 import com.bcq.oklib.net.Parser;
 import com.bcq.oklib.net.utils.ApiType;
 import com.bcq.oklib.net.view.LoadDialog;
-import com.bcq.oklib.utils.Logger;
 import com.bcq.oklib.utils.ObjUtil;
 
 import java.util.List;
@@ -34,10 +33,9 @@ public abstract class AbsListActivity<T> extends BaseActivity implements UIContr
 
     @Override
     public final void init() {
-        resetLayoutView();
         tClass = (Class<T>) ObjUtil.getTType(getClass())[0];
+        resetLayoutView();
         mController = new UIController<T>(getLayout(), tClass, this);
-        mController.init();
         initView(contentView);
     }
 
@@ -45,14 +43,10 @@ public abstract class AbsListActivity<T> extends BaseActivity implements UIContr
         FrameLayout ll_content = getView(R.id.ll_content);
         contentView = setContentView();
         ll_content.addView(contentView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        //覆盖当前视图的v_show_data
+        //添加no_data到show_data同级
         View show_data = UI.getView(contentView,R.id.v_show_data);
         ViewGroup extraParent = null != show_data ? (ViewGroup) show_data.getParent() : ll_content;
         extraParent.addView(UI.inflate(R.layout.no_data), FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-    }
-
-    public void getNetData(boolean isRefresh, String mUrl, Map<String, String> params, String mDialogMsg) {
-        getNetData(isRefresh, mUrl, params, null, mDialogMsg, ApiType.GET);
     }
 
     public void getNetData(boolean isRefresh, String mUrl, Map<String, String> params, String mDialogMsg, ApiType apiType) {
@@ -69,7 +63,7 @@ public abstract class AbsListActivity<T> extends BaseActivity implements UIContr
      */
     public void getNetData(boolean isRefresh, String mUrl, Map<String, String> params, Parser parser, String mDialogMsg, ApiType apiType) {
         if (null != mController)
-            mController.securityObtainData(isRefresh, mUrl, params, parser, TextUtils.isEmpty(mDialogMsg) ? null : new LoadDialog(mActivity, mDialogMsg), apiType);
+            mController.obtainNetData(isRefresh, mUrl, params, parser, TextUtils.isEmpty(mDialogMsg) ? null : new LoadDialog(mActivity, mDialogMsg), apiType);
     }
 
     /**
@@ -105,9 +99,7 @@ public abstract class AbsListActivity<T> extends BaseActivity implements UIContr
     }
 
     @Override
-    public void onLoadError(int status, String errMsg) {
-        Logger.e(TAG, "onLoadError: errMsg = " + errMsg);
-    }
+    public void onLoadError(int status, String errMsg) {}
 
     public abstract View setContentView();
 

@@ -45,10 +45,6 @@ public class UIController<T>{
     private View showData;
     private View noData;
     private View layout;
-    //init执行是否完毕 未执行完毕 不建议调用obtainNetData
-    private boolean isInitComplete = false;
-    //序列执行锁
-    private final Object sequenceLocal = new Object();
 
     public enum ShowType{
         Data,
@@ -59,14 +55,11 @@ public class UIController<T>{
         this.layout = parent;
         this.tClass = tClass;
         this.operator = operator;
+        init();
     }
 
     //init 手动调用
-    public void init() {
-        isInitComplete = true;
-        synchronized (sequenceLocal) {//init 完毕唤醒
-            sequenceLocal.notify();
-        }
+    private void init() {
         showData = UI.getView(layout,R.id.v_show_data);
         noData = UI.getView(layout,R.id.v_no_data);
         baseListView = UI.getView(layout,R.id.lv_base);
@@ -111,31 +104,30 @@ public class UIController<T>{
      * @param dialog    进度条
      * @param apiType   api类型 post/get
      */
-    public void securityObtainData(final boolean isRefresh, final String mUrl, final Map<String, String> params, final Parser parser, final LoadDialog dialog, final ApiType apiType) {
-       Logger.e(TAG,"securityObtainData");
-        if (isInitComplete) {//不需要切换
-            obtainNetData(isRefresh, mUrl, params, parser, dialog, apiType);
-        } else {//init 未执行完毕 但是执行obtainData方法 故需要手动调整执行序列。
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    synchronized (sequenceLocal) {
-                        while (!isInitComplete) {//未init完毕 等待
-                            try {
-                                Logger.e("UIController","wait ... init");
-                                sequenceLocal.wait();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                    obtainNetData(isRefresh, mUrl, params, parser, dialog, apiType);
-                }
-            }).start();
-        }
-    }
-
-    private void obtainNetData(final boolean isRefresh, String mUrl, Map<String, String> params, Parser parser, LoadDialog dialog, ApiType apiType) {
+//    public void securityObtainData(final boolean isRefresh, final String mUrl, final Map<String, String> params, final Parser parser, final LoadDialog dialog, final ApiType apiType) {
+//       Logger.e(TAG,"securityObtainData");
+//        if (isInitComplete) {//不需要切换
+//            obtainNetData(isRefresh, mUrl, params, parser, dialog, apiType);
+//        } else {//init 未执行完毕 但是执行obtainData方法 故需要手动调整执行序列。
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    synchronized (sequenceLocal) {
+//                        while (!isInitComplete) {//未init完毕 等待
+//                            try {
+//                                Logger.e("UIController","wait ... init");
+//                                sequenceLocal.wait();
+//                            } catch (InterruptedException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    }
+//                    obtainNetData(isRefresh, mUrl, params, parser, dialog, apiType);
+//                }
+//            }).start();
+//        }
+//    }
+    public void obtainNetData(final boolean isRefresh, String mUrl, Map<String, String> params, Parser parser, LoadDialog dialog, ApiType apiType) {
        Logger.e(TAG,"obtainNetData");
         if (isRefresh) index = 1;
         if (null == params) params = new HashMap<>(2);
@@ -156,12 +148,6 @@ public class UIController<T>{
                 if (!loadFull){
                     index ++;
                 }
-            }
-
-            @Override
-            public void onNoData(LoadDialog tag) {
-                super.onNoData(tag);
-                _onRefreshData(null, isRefresh);
             }
 
             @Override

@@ -4,7 +4,6 @@ import android.view.View;
 
 import com.bcq.oklib.UI;
 import com.bcq.oklib.adapter.OAdapter;
-import com.bcq.oklib.base.AbsListActivity;
 import com.bcq.oklib.base.AbsListFragment;
 import com.bcq.oklib.net.utils.ApiType;
 import com.bcq.oklib.utils.Logger;
